@@ -1,0 +1,64 @@
+[tool.poetry]
+name = "django-user-log"
+version = "0.1.0"
+description = "A Python logging filter for Django user attributes."
+license = "MIT"
+authors = ["Jonathan Hiles <jonathan@hil.es>"]
+readme = "README.md"
+repository = "https://github.com/axieum/django-user-log"
+keywords = ["async", "django", "logs", "logging", "middleware", "sync", "user", "web"]
+classifiers = [
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
+]
+packages = [{ include = "django_user_log", from = "src" }]
+include = [{ path = "tests", format = "sdist" }]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+django = "^3.0 | ^4.0"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^2.20.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.2.0"
+pytest-asyncio = "^0.20.3"
+pytest-cov = "^4.0.0"
+pytest-django = "^4.5.2"
+pytest-xdist = "^3.1.0"
+syrupy = "^3.0.5"
+
+[tool.poetry.group.typing.dependencies]
+mypy = ">=0.990"
+django-stubs = "^1.13.1"
+
+[tool.black]
+target-version = ["py38"]
+line-length = 120
+
+[tool.isort]
+py_version = 38
+profile = "black"
+src_paths = ["src", "tests"]
+combine_as_imports = true
+
+[tool.mypy]
+files = ["src", "tests"]
+strict = true
+
+[tool.pytest.ini_options]
+addopts = "-n auto"
+testpaths = ["tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "if TYPE_CHECKING:",
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,4 @@
+[flake8]
+enable-extensions = TC, TC1
+max-line-length = 120
+type-checking-strict = true

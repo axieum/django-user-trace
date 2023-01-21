@@ -1,0 +1,35 @@
+# Security Policy
+
+## Reporting a Vulnerability
+
+If you discover a security vulnerability within `django-user-log`, please
+send an e-mail to Jonathan Hiles at jonathan@hil.es. All security
+vulnerabilities will be promptly addressed.
+
+### Public PGP Key
+
+```asc
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+mDMEY3oqwxYJKwYBBAHaRw8BAQdAe76/05EDppNm/Q08FX6r5+mcUgJlEC9oLNHS
+P4vCPbK0IEpvbmF0aGFuIEhpbGVzIDxqb25hdGhhbkBoaWwuZXM+iJMEExYKADsW
+IQSbOWcxXiTjScf//vfI56JFuNBSbAUCY3oqwwIbAwULCQgHAgIiAgYVCgkICwIE
+FgIDAQIeBwIXgAAKCRDI56JFuNBSbOa+AP4z8LIGDXqejihfMgkYfB+zcz/UBnt7
+eItaSKFw6qcUcwD/TLmoCPhAz4H8slkvIjZMVqK0FZh8s7vTx39gDtrGkgi4MwRj
+eizjFgkrBgEEAdpHDwEBB0DXtDp7slHJdjUHXSNRV39kBO/lWe0KfQuuZg9H2K5y
+gIj1BBgWCgAmFiEEmzlnMV4k40nH//73yOeiRbjQUmwFAmN6LOMCGwIFCQHhM4AA
+gQkQyOeiRbjQUmx2IAQZFgoAHRYhBKM8iFN2saHf/2tQih3ZFwLdpcIdBQJjeizj
+AAoJEB3ZFwLdpcIdPCwBAOBIhxKhoS9VF0BdAORxxJ0Ys73xRWlTVihLiKBhJjXC
+AP9Cq0cgHXMhGXcD7AihbGloTfvZI2OnOMqhes36ok7CD77aAP9E7W74VTD7ftQ4
+LIU+r+SMlCrqktdsgRBMtqU4HaKjYAD+JayU/vRtaA2FcwKEfwqm1zHpMeZJBi5p
+Q2xlMZWdRg+4OARjei1zEgorBgEEAZdVAQUBAQdA25uGl4SHXUyMbfVb7vrP3bXg
+bvx2UzWh60sVaJURSVwDAQgHiH4EGBYKACYWIQSbOWcxXiTjScf//vfI56JFuNBS
+bAUCY3otcwIbDAUJAeEzgAAKCRDI56JFuNBSbNoRAP9YSL41Sf7VTnn1day9zY4t
+GI8MzmDQIGvbYc1nJxelBAEAw4SkxNOnuKZ6T4sIV5lO6O/Ec/jey7Dd9K9sSNh9
+fAi4MwRjei2NFgkrBgEEAdpHDwEBB0A00IiMMOyJvPbgtv9GZ7TLOllbSqaCX+9L
+EVq9qIYBTYh+BBgWCgAmFiEEmzlnMV4k40nH//73yOeiRbjQUmwFAmN6LY0CGyAF
+CQHhM4AACgkQyOeiRbjQUmyP+AEA8wfFtsrB7QrLY/HIKFs0T+11eng68FqS7K0G
+I4ij7i8BAITKv52MfLFSmkQGcl+NoQySnyUTHkVl6K1rBc089nkG
+=EUao
+-----END PGP PUBLIC KEY BLOCK-----
+```
