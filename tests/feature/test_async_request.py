@@ -36,7 +36,7 @@ async def test_authenticated_async_request(async_client: AsyncClient, caplog: Lo
 
     # Create a new user
     user: AbstractUser = await sync_to_async(get_user_model().objects.create)(
-        username="jonathan", email="jonathan@localhost", first_name="Jonathan", last_name="Hiles"
+        username=(username := "jonathan"), email="jonathan@localhost", first_name="Jonathan", last_name="Hiles"
     )
 
     # Fetch the index page
@@ -46,9 +46,9 @@ async def test_authenticated_async_request(async_client: AsyncClient, caplog: Lo
     # Expect the log messages to have the expected Django user context
     assert [(r.message, getattr(r, "username", None)) for r in caplog.records] == [
         ("async middleware called", None),
-        (f"set `user_attrs` context var to {{'username': '{user.get_username()}'}}", user.get_username()),
-        ("load `index_view` view", user.get_username()),
-        ("received signal `request_finished`, clearing `user_attrs` context var", user.get_username()),
+        (f"set `user_attrs` context var to {{'username': '{username}'}}", username),
+        ("load `index_view` view", username),
+        ("received signal `request_finished`, clearing `user_attrs` context var", username),
     ]
 
 

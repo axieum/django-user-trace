@@ -65,6 +65,22 @@ def test_user_attr_import_string(settings: SettingsWrapper) -> None:
     assert new_settings.USER_ATTRS["username"] == get_user_attrs  # type: ignore
 
 
+def test_invalid_user_attr_import_string(settings: SettingsWrapper) -> None:
+    """Tests that a user attribute setting with an invalid import path raises an error on load."""
+
+    # Set an invalid user attribute import path in Django settings
+    settings.DJANGO_USER_LOG = {
+        "USER_ATTRS": {
+            "email": "email",
+            "username": "ext://invalid.module.func",  # <- ERRONEOUS
+        },
+    }
+
+    # Instantiate a new django-user-log settings instance and expect an error
+    with pytest.raises(ImproperlyConfigured, match="Cannot import django-user-log user attribute 'username'."):
+        Settings()
+
+
 @pytest.mark.parametrize(
     "type_name, value",
     [
@@ -84,20 +100,4 @@ def test_invalid_user_attr_type(type_name: str, value: Any, settings: SettingsWr
         ImproperlyConfigured,
         match=f"Expected a string or callable for django-user-log user attribute 'username' but got '{type_name}'.",
     ):
-        Settings()
-
-
-def test_invalid_user_attr_import_string(settings: SettingsWrapper) -> None:
-    """Tests that a user attribute setting with an invalid import path raises an error on load."""
-
-    # Set an invalid user attribute import path in Django settings
-    settings.DJANGO_USER_LOG = {
-        "USER_ATTRS": {
-            "email": "email",
-            "username": "ext://invalid.module.func",  # <- ERRONEOUS
-        },
-    }
-
-    # Instantiate a new django-user-log settings instance and expect an error
-    with pytest.raises(ImproperlyConfigured, match="Cannot import django-user-log user attribute 'username'."):
         Settings()
