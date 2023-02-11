@@ -25,10 +25,11 @@ class Settings:
         :param key: key used to lookup user-defined settings from Django settings
         """
 
-        # A mapping of log record field names to:
-        #   1. a Django user object (i.e. `request.user`) attribute;
-        #   2. a callable of `(AbstractBaseUser, HttpRequest) -> Any`;
-        #   3. an import string prefixed with 'ext://' for a callable (see 2).
+        # A mapping of log record field names to either:
+        #   1. an attribute on the Django `request.user` object;
+        #     a. To lookup nested attributes, separate them by `__` (two underscores), e.g. `profile__country__code`
+        #   2. a callable that accepts (`AbstractBaseUser` | `AnonymousUser`, `HttpRequest`) and returns the result;
+        #   3. an import string (prefixed with `ext://`) to a callable as seen in (2) above.
         self.USER_ATTRS: dict[str, str | Callable[[AbstractBaseUser | AnonymousUser, HttpRequest], Any]] = {
             "username": "get_username",
         }

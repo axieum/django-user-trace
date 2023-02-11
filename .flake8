@@ -1,3 +1,5 @@
+# https://flake8.pycqa.org
+
 [flake8]
 enable-extensions = TC, TC1
 extend-ignore =

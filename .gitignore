@@ -21,6 +21,11 @@ htmlcov/
 coverage.lcov
 coverage.xml
 
+### docs
+
+# mkdocs
+site/
+
 ### ide
 
 # jetbrains
