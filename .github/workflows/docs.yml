@@ -1,0 +1,58 @@
+# Publishes the project documentation
+
+name: Docs
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_call:
+    inputs: #&inputs
+      version: { description: 'The version to deploy the docs to', type: string, required: true }
+      aliases: { description: 'A space-delimited list of version aliases', type: string, required: false }
+  workflow_dispatch:
+    inputs: #*inputs
+      version: { description: 'The version to deploy the docs to', type: string, required: true }
+      aliases: { description: 'A space-delimited list of version aliases', type: string, required: false }
+
+permissions:
+  contents: write
+
+jobs:
+  docs:
+    name: Docs
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ✨ Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 📖 Bootstrap Poetry
+        run: pipx install poetry
+
+      - name: 🐍 Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+          cache: poetry
+
+      - name: ⬇️ Install dependencies
+        run: poetry install --with docs
+
+      - name: 🏗️ Build documentation
+        run: poetry run mkdocs build
+
+      - name: 📑 Deploy documentation
+        if: ${{ inputs.version || github.ref == 'refs/heads/main' }}
+        env:
+          X_DOCS_VERSION: ${{ inputs.version || 'dev' }}
+          X_DOCS_ALIASES: ${{ inputs.aliases || '' }}
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          poetry run mike deploy --push --update-aliases \
+            -m "chore(docs): release ${GITHUB_SHA:0:7} as ${X_DOCS_VERSION}" \
+            ${X_DOCS_VERSION} ${X_DOCS_ALIASES[@]}

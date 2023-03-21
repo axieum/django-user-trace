@@ -1,0 +1,40 @@
+# Performs linting on the project
+
+name: Lint
+
+on:
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ✨ Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 📖 Bootstrap Poetry
+        run: pipx install poetry
+
+      - name: 🐍 Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+          cache: poetry
+
+      - name: ⬇️ Install dependencies
+        run: poetry install
+
+      - name: 🧩 Run type checks
+        run: poetry run mypy
+
+      - name: 🚦 Run pre-commit
+        uses: pre-commit/action@v3.0.0
+
+      - name: 📑 Apply changes (via pre-commit-ci-lite)
+        if: always()
+        uses: pre-commit-ci/lite-action@v1.0.0

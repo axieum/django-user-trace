@@ -1,0 +1,95 @@
+# Tests the project
+
+name: Test
+
+on:
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }}, Django ${{ matrix.django-version }}
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ 3.11, '3.10', 3.9, 3.8 ]
+        django-version: [ 4.1, '4.0', 3.2 ]
+        include:
+          - python-version: 3.11
+            django-version: 4.1
+            annotate-failures: true
+
+    steps:
+      - name: ✨ Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 📖 Bootstrap Poetry
+        run: pipx install poetry
+
+      - name: 🐍 Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: poetry
+
+      - name: ⬇️ Install dependencies
+        run: |
+          poetry add --lock \
+            django@${{ matrix.django-version }} \
+            ${{ matrix.annotate-failures && 'pytest-github-actions-annotate-failures@^0.1' }}
+          poetry install
+
+      - name: 🧪 Run tests
+        run: poetry run pytest --cov src
+        env:
+          COVERAGE_FILE: .coverage.py${{ matrix.python-version }}-dj${{ matrix.django-version }}
+
+      - name: ⬆️ Upload coverage data
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: .coverage.*
+          retention-days: 1
+
+  report:
+    name: Coverage Report
+
+    runs-on: ubuntu-latest
+    needs: [ test ]
+
+    steps:
+      - name: ✨ Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 📖 Bootstrap Poetry
+        run: pipx install poetry
+
+      - name: 🐍 Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+          cache: poetry
+
+      - name: ⬇️ Install dependencies
+        run: poetry install --only test
+
+      - name: 🔍 Restore coverage data
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage
+
+      - name: 📑 Combine coverage data
+        run: |
+          poetry run coverage combine
+          poetry run coverage report
+          poetry run coverage xml
+
+      - name: ⬆️ Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
