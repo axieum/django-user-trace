@@ -38,6 +38,7 @@ jobs:
       tag_name: ${{ steps.release-please.outputs.tag_name }}
       major: ${{ steps.release-please.outputs.major }}
       minor: ${{ steps.release-please.outputs.minor }}
+      patch: ${{ steps.release-please.outputs.patch }}
 
   publish:
     name: Publish to PyPI
@@ -48,7 +49,7 @@ jobs:
 
     environment:
       name: pypi
-      url: ${{ vars.PYPI_PROJECT_URL }}
+      url: ${{ vars.PYPI_PROJECT_URL }}/${{ needs.release.outputs.major }}.${{ needs.release.outputs.minor }}.${{ needs.release.outputs.patch }}
 
     steps:
       - name: ✨ Checkout repository

@@ -5,7 +5,6 @@
 A Python [logging][python:logging] filter for [Django][django] user attributes
 
 [![Build](https://img.shields.io/github/actions/workflow/status/axieum/django-user-log/release.yml?branch=main&style=flat-square)][ci:release]
-[![Tests](https://img.shields.io/github/actions/workflow/status/axieum/django-user-log/test.yml?branch=main&label=tests&style=flat-square)][ci:test]
 [![Coverage](https://img.shields.io/codecov/c/github/axieum/django-user-log?style=flat-square)][codecov]
 [![Python](https://img.shields.io/pypi/pyversions/django-user-log?style=flat-square)][python]
 [![PyPI](https://img.shields.io/pypi/v/django-user-log?style=flat-square&include_prereleases&sort=semver)][pypi]
