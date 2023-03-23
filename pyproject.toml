@@ -6,6 +6,7 @@ license = "MIT"
 authors = ["Jonathan Hiles <jonathan@hil.es>"]
 readme = "README.md"
 repository = "https://github.com/axieum/django-user-log"
+documentation = "https://axieum.github.io/django-user-log/latest/"
 keywords = ["async", "django", "logs", "logging", "middleware", "sync", "user", "web"]
 classifiers = [
   "Intended Audience :: Developers",
@@ -16,6 +17,11 @@ classifiers = [
 packages = [{ include = "django_user_log", from = "src" }]
 include = [{ path = "tests", format = "sdist" }]
 
+[tool.poetry.urls]
+"Funding" = "https://github.com/sponsors/axieum"
+"Issue tracker" = "https://github.com/axieum/django-user-log/issues"
+"Release notes" = "https://axieum.github.io/django-user-log/latest/changelog/"
+
 [tool.poetry.dependencies]
 python = "^3.8"
 django = "^3.0 | ^4.0"
@@ -25,7 +31,7 @@ pre-commit = "^3.0.1"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.2.0"
-pytest-asyncio = "^0.20.3"
+pytest-asyncio = "^0.21.0"
 pytest-cov = "^4.0.0"
 pytest-django = "^4.5.2"
 pytest-xdist = "^3.1.0"
@@ -45,11 +51,6 @@ mkdocs-gen-files = "^0.4.0"
 mkdocs-git-revision-date-localized-plugin = "^1.1.0"
 mkdocs-material = "^9.0.9"
 mkdocs-minify-plugin = "^0.6.2"
-
-[tool.poetry.group.ci]
-optional = true
-[tool.poetry.group.ci.dependencies]
-pytest-github-actions-annotate-failures = "^0.1.8"
 
 [tool.black]
 target-version = ["py38"]
