@@ -1,12 +1,12 @@
 # Configuration
 
-You can provide settings for `django-user-log` by adding `DJANGO_USER_LOG` as a
+You can provide settings for `django-user-trace` by adding `DJANGO_USER_TRACE` as a
 dictionary to your Django settings.
 
 The default settings are as follows:
 
 ```py title="settings.py"
-DJANGO_USER_LOG = {
+DJANGO_USER_TRACE = {
     "USER_ATTRS": {"username": "get_username"},
 }
 ```
@@ -37,7 +37,7 @@ It is a mapping of log record field names to either:
 def get_custom_attribute(user, request):
     return f"Mr. {user.get_short_name()}"
 
-DJANGO_USER_LOG = {
+DJANGO_USER_TRACE = {
     # ...
     "USER_ATTRS": {
         "email": "email",#(1)!
@@ -48,7 +48,7 @@ DJANGO_USER_LOG = {
 }
 ```
 
-1. Here, we are configuring the `USER_ATTRS` option of `django-user-log` to
+1. Here, we are configuring the `USER_ATTRS` option of `django-user-trace` to
    map [`request.user.email`][django:user_email] to the `username` field on a
    log record.
 2. Here, we are mapping the result of invoking the

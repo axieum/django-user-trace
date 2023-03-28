@@ -12,15 +12,15 @@ if TYPE_CHECKING:
 
 
 # The key used to lookup user-defined settings from Django settings
-SETTINGS_KEY: str = "DJANGO_USER_LOG"
+SETTINGS_KEY: str = "DJANGO_USER_TRACE"
 
 
 class Settings:
-    """django-user-log settings."""
+    """django-user-trace settings."""
 
     def __init__(self, key: str = SETTINGS_KEY) -> None:
         """
-        Initialises the settings for use throughout django-user-log.
+        Initialises the settings for use throughout django-user-trace.
 
         :param key: key used to lookup user-defined settings from Django settings
         """
@@ -38,7 +38,7 @@ class Settings:
         if user_settings := getattr(django_settings, key, None):
             for setting, value in user_settings.items():
                 if not hasattr(self, setting):
-                    raise ImproperlyConfigured(f"'{setting}' is not a valid django-user-log setting.")
+                    raise ImproperlyConfigured(f"'{setting}' is not a valid django-user-trace setting.")
                 setattr(self, setting, value)
 
         # Validate settings
@@ -53,12 +53,13 @@ class Settings:
                 try:
                     self.USER_ATTRS[name] = attr = import_string(attr[6:])
                 except Exception as e:
-                    raise ImproperlyConfigured(f"Cannot import django-user-log user attribute '{name}'.") from e
+                    raise ImproperlyConfigured(f"Cannot import django-user-trace user attribute '{name}'.") from e
 
             # Check that the attribute type is either a string or callable
             if not (isinstance(attr, str) or callable(attr)):
                 raise ImproperlyConfigured(
-                    f"Expected a string or callable for django-user-log user attribute '{name}' but got '{type(attr)}'."
+                    f"Expected a string or callable for django-user-trace user attribute '{name}' "
+                    f"but got '{type(attr)}'."
                 )
 
 

@@ -2,37 +2,37 @@
 
 ## 1. Installed apps
 
-Add `django_user_log` to your [`INSTALLED_APPS`][django:installed_apps] Django setting:
+Add `django_user_trace` to your [`INSTALLED_APPS`][django:installed_apps] Django setting:
 
 ```py
 INSTALLED_APPS = [
   # ...
-  "django_user_log",  # https://github.com/axieum/django-user-log
+  "django_user_trace",  # https://github.com/axieum/django-user-trace
 ]
 ```
 
 ## 2. Middleware
 
-Add `django_user_log.middleware.django_user_log_middleware` to your
+Add `django_user_trace.middleware.django_user_trace_middleware` to your
 [`MIDDLEWARE`][django:middleware] Django setting:
 
 ```py
 MIDDLEWARE = [
     # ...
     "django.contrib.auth.middleware.AuthenticationMiddleware",#(1)!
-    "django_user_log.middleware.django_user_log_middleware",
+    "django_user_trace.middleware.django_user_trace_middleware",
     # ...
 ]
 ```
 
-1. :exclamation: `django-user-log` uses middleware to capture user
+1. :exclamation: `django-user-trace` uses middleware to capture user
    attributes from each request's [`request.user`][django:request_user]
    attribute. To do this, the middleware must be placed **after** Django's
    [`AuthenticationMiddleware`][django:auth_middleware]!
 
 ## 3. Logging
 
-Add `django_user_log.log.DjangoUserAttrs` as a filter to your
+Add `django_user_trace.log.DjangoUserAttrs` as a filter to your
 [`LOGGING`][django:logging] Django setting, apply the filter to handler/s, and
 add the new `username` field to any formatters:
 
@@ -41,7 +41,7 @@ LOGGING = {
     # ...
     "filters": {
         # ...
-        "user_attrs": {"()": "django_user_log.log.DjangoUserAttrs"},#(1)!
+        "user_attrs": {"()": "django_user_trace.log.DjangoUserAttrs"},#(1)!
     },
     "formatters": {
         # ...
@@ -67,14 +67,14 @@ LOGGING = {
 
 ### 3.1 Internal logs <small>optional</small> { #31-internal-logs data-toc-label="3.1 Internal logs" }
 
-To view internal logs made by `django-user-log` for debugging purposes, add the
-`django_user_log` logger to your [`LOGGING`][django:logging] Django setting:
+To view internal logs made by `django-user-trace` for debugging purposes, add the
+`django_user_trace` logger to your [`LOGGING`][django:logging] Django setting:
 
 ```py
 LOGGING = {
     # ...
     "loggers": {
-        "django_user_log": {
+        "django_user_trace": {
             "handlers": ["console"],
             "level": "WARNING",#(1)!
             "propagate": False,

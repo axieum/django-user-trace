@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability within `django-user-log`, please
+If you discover a security vulnerability within `django-user-trace`, please
 send an e-mail to Jonathan Hiles at jonathan@hil.es. All security
 vulnerabilities will be promptly addressed.
 

@@ -2,12 +2,12 @@ from django.apps import AppConfig
 
 
 class DjangoUserLogConfig(AppConfig):
-    """django-user-log."""
+    """django-user-trace."""
 
-    name = "django_user_log"
+    name = "django_user_trace"
 
     def ready(self) -> None:
-        """Sets up the django-user-log app."""
+        """Sets up the django-user-trace app."""
 
         # Register signals
         from . import signals  # noqa: F401 # isort: split

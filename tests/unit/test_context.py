@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from django_user_log.context import get_user_attrs, user_attrs
+from django_user_trace.context import get_user_attrs, user_attrs
 
 
 def test_set_and_get_user_attrs() -> None:

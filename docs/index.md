@@ -1,4 +1,4 @@
-<h1 align="center"><code>django-user-log</code></h1>
+<h1 align="center"><code>django-user-trace</code></h1>
 
 <div align="center" markdown>
 

@@ -124,10 +124,10 @@ is triggered. This workflow in turn executes [release-please][release-please].
 [changelog]: CHANGELOG.md
 [conventionalcommits]: https://www.conventionalcommits.org/
 [github:actions]: https://github.com/features/actions
-[github:discussions]: https://github.com/axieum/django-user-log/discussions
+[github:discussions]: https://github.com/axieum/django-user-trace/discussions
 [github:flow]: https://guides.github.com/introduction/flow
-[github:issues]: https://github.com/axieum/django-user-log/issues
-[github:prs]: https://github.com/axieum/django-user-log/pulls
+[github:issues]: https://github.com/axieum/django-user-trace/issues
+[github:prs]: https://github.com/axieum/django-user-trace/pulls
 [release-please]: https://github.com/googleapis/release-please
 [semver]: https://semver.org/
 [workflow:release]: .github/workflows/release.yml

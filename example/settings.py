@@ -12,7 +12,7 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    "django_user_log",  # <- ADD THIS
+    "django_user_trace",  # <- ADD THIS
 ]
 
 MIDDLEWARE = [
@@ -21,7 +21,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django_user_log.middleware.django_user_log_middleware",  # <- ADD THIS
+    "django_user_trace.middleware.django_user_trace_middleware",  # <- ADD THIS
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -56,7 +56,7 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "filters": {
-        "user_attrs": {"()": "django_user_log.log.DjangoUserAttrs"},  # <- ADD THIS
+        "user_attrs": {"()": "django_user_trace.log.DjangoUserAttrs"},  # <- ADD THIS
     },
     "formatters": {
         "verbose": {
@@ -80,7 +80,7 @@ LOGGING = {
             "level": "DEBUG",
             "handlers": ["console"],
         },
-        "django_user_log": {
+        "django_user_trace": {
             "level": "DEBUG",
             "handlers": ["console"],
         },

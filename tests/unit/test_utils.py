@@ -2,7 +2,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from django_user_log.utils import rgetattr
+from django_user_trace.utils import rgetattr
 
 
 def test_rgetattr_with_dict() -> None:

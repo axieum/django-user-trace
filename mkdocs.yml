@@ -1,7 +1,7 @@
 # https://www.mkdocs.org
 
 # Project
-site_name: django-user-log
+site_name: django-user-trace
 site_author: Jonathan Hiles
 site_description: A Python logging filter for Django user attributes
 
@@ -9,8 +9,8 @@ site_description: A Python logging filter for Django user attributes
 copyright: Copyright &copy; 2023 Jonathan Hiles
 
 # Repository
-repo_name: axieum/django-user-log
-repo_url: https://github.com/axieum/django-user-log
+repo_name: axieum/django-user-trace
+repo_url: https://github.com/axieum/django-user-trace
 
 # Theme
 theme:
@@ -53,7 +53,7 @@ theme:
 extra:
   social:
     - icon: fontawesome/brands/python
-      link: https://pypi.org/project/django-user-log
+      link: https://pypi.org/project/django-user-trace
     - icon: fontawesome/brands/github
       link: https://github.com/axieum
     - icon: fontawesome/brands/linkedin

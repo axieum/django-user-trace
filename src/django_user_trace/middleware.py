@@ -8,9 +8,9 @@ from asgiref.sync import sync_to_async
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.decorators import sync_and_async_middleware
 
-from django_user_log.conf import settings
-from django_user_log.context import user_attrs
-from django_user_log.utils import rgetattr
+from django_user_trace.conf import settings
+from django_user_trace.context import user_attrs
+from django_user_trace.utils import rgetattr
 
 if TYPE_CHECKING:
     from django.http import HttpRequest, HttpResponse
@@ -31,9 +31,9 @@ def process_request(request: HttpRequest) -> None:
     # Check that authentication has been performed by an earlier middleware
     if not hasattr(request, "user"):
         raise ImproperlyConfigured(
-            "The django-user-log middleware requires authentication middleware to be installed. "
+            "The django-user-trace middleware requires authentication middleware to be installed. "
             "Edit your MIDDLEWARE setting to insert 'django.contrib.auth.middleware.AuthenticationMiddleware' "
-            "before 'django_user_log.middleware.django_user_log_middleware'."
+            "before 'django_user_trace.middleware.django_user_trace_middleware'."
         )
 
     # Capture any necessary user attributes for use in log messages
@@ -52,7 +52,7 @@ def process_request(request: HttpRequest) -> None:
 
 
 @sync_and_async_middleware
-def django_user_log_middleware(get_response: GetResponseCallable) -> GetResponseCallable:
+def django_user_trace_middleware(get_response: GetResponseCallable) -> GetResponseCallable:
     """
     Observes the Django user context of a request for use in Python's logging framework.
 

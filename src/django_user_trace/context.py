@@ -4,7 +4,7 @@ from contextvars import ContextVar
 from typing import Any
 
 # The Django user attributes available for use in log messages on the current thread
-user_attrs: ContextVar[dict[str, Any] | None] = ContextVar("django_user_log", default=None)
+user_attrs: ContextVar[dict[str, Any] | None] = ContextVar("django_user_trace", default=None)
 
 
 def get_user_attrs() -> dict[str, Any] | None:

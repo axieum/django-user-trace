@@ -1,26 +1,26 @@
 [tool.poetry]
-name = "django-user-log"
+name = "django-user-trace"
 version = "0.1.0"
 description = "A Python logging filter for Django user attributes."
 license = "MIT"
 authors = ["Jonathan Hiles <jonathan@hil.es>"]
 readme = "README.md"
-repository = "https://github.com/axieum/django-user-log"
-documentation = "https://axieum.github.io/django-user-log/latest/"
-keywords = ["async", "django", "logs", "logging", "middleware", "sync", "user", "web"]
+repository = "https://github.com/axieum/django-user-trace"
+documentation = "https://axieum.github.io/django-user-trace/latest/"
+keywords = ["async", "django", "logs", "logging", "middleware", "sync", "trace", "tracing", "user", "web"]
 classifiers = [
   "Intended Audience :: Developers",
   "Operating System :: OS Independent",
   "Topic :: Software Development :: Libraries :: Python Modules",
   "Typing :: Typed",
 ]
-packages = [{ include = "django_user_log", from = "src" }]
+packages = [{ include = "django_user_trace", from = "src" }]
 include = [{ path = "tests", format = "sdist" }]
 
 [tool.poetry.urls]
 "Funding" = "https://github.com/sponsors/axieum"
-"Issue tracker" = "https://github.com/axieum/django-user-log/issues"
-"Release notes" = "https://axieum.github.io/django-user-log/latest/changelog/"
+"Issue tracker" = "https://github.com/axieum/django-user-trace/issues"
+"Release notes" = "https://axieum.github.io/django-user-trace/latest/changelog/"
 
 [tool.poetry.dependencies]
 python = "^3.8"

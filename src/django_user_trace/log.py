@@ -3,8 +3,8 @@ from __future__ import annotations
 import logging
 from typing import Any, Iterable
 
-from django_user_log.conf import settings
-from django_user_log.context import user_attrs
+from django_user_trace.conf import settings
+from django_user_trace.context import user_attrs
 
 
 class DjangoUserAttrs(logging.Filter):

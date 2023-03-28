@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any
 import pytest
 from django.contrib.auth import get_user_model
 
-from django_user_log.conf import Settings
+from django_user_trace.conf import Settings
 
 if TYPE_CHECKING:
     from _pytest.logging import LogCaptureFixture
@@ -23,11 +23,11 @@ def test_log_multiple_attrs_of_user(
     """Tests that all configured user attributes are logged successfully for an authenticated user."""
 
     # Set multiple user attributes to log in Django settings
-    settings.DJANGO_USER_LOG = {
+    settings.DJANGO_USER_TRACE = {
         "USER_ATTRS": {"username": "get_username", "email": "email"},
     }
-    monkeypatch.setattr("django_user_log.log.settings", new_settings := Settings())
-    monkeypatch.setattr("django_user_log.middleware.settings", new_settings)
+    monkeypatch.setattr("django_user_trace.log.settings", new_settings := Settings())
+    monkeypatch.setattr("django_user_trace.middleware.settings", new_settings)
 
     # Create a new user
     user: AbstractUser = get_user_model().objects.create(
@@ -53,11 +53,11 @@ def test_log_multiple_attrs_of_anonymous_user(
     """Tests that all configured user attributes are logged successfully for an anonymous user."""
 
     # Set multiple user attributes to log in Django settings
-    settings.DJANGO_USER_LOG = {
+    settings.DJANGO_USER_TRACE = {
         "USER_ATTRS": {"username": "get_username", "email": "email"},
     }
-    monkeypatch.setattr("django_user_log.log.settings", new_settings := Settings())
-    monkeypatch.setattr("django_user_log.middleware.settings", new_settings)
+    monkeypatch.setattr("django_user_trace.log.settings", new_settings := Settings())
+    monkeypatch.setattr("django_user_trace.middleware.settings", new_settings)
 
     # Fetch the index page
     client.get("/")
@@ -81,11 +81,11 @@ def test_log_result_of_custom_callable_for_user(
         return f"Mr. {auth_user.get_short_name()}"
 
     # Set a custom callable as a user attribute to log in Django settings
-    settings.DJANGO_USER_LOG = {
+    settings.DJANGO_USER_TRACE = {
         "USER_ATTRS": {"username": "get_username", "custom": get_custom_attribute},
     }
-    monkeypatch.setattr("django_user_log.log.settings", new_settings := Settings())
-    monkeypatch.setattr("django_user_log.middleware.settings", new_settings)
+    monkeypatch.setattr("django_user_trace.log.settings", new_settings := Settings())
+    monkeypatch.setattr("django_user_trace.middleware.settings", new_settings)
 
     # Create a new user with a unique mark
     user: AbstractUser = get_user_model().objects.create(

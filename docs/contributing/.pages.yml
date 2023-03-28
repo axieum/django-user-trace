@@ -1,5 +1,5 @@
 nav:
   - index.md
-  - Reporting a bug: https://github.com/axieum/django-user-log/issues/new
+  - Reporting a bug: https://github.com/axieum/django-user-trace/issues/new
   - reporting-a-vulnerability.md
-  - Asking a question: https://github.com/axieum/django-user-log/discussions
+  - Asking a question: https://github.com/axieum/django-user-trace/discussions

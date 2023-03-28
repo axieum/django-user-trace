@@ -6,7 +6,7 @@ from typing import Any
 from django.core.signals import request_finished
 from django.dispatch import receiver
 
-from django_user_log.context import user_attrs
+from django_user_trace.context import user_attrs
 
 logger: logging.Logger = logging.getLogger(__name__)
 
