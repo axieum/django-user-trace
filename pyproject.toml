@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-user-trace"
-version = "0.1.0"
+version = "1.0.0"
 description = "A Python logging filter for Django user attributes."
 license = "MIT"
 authors = ["Jonathan Hiles <jonathan@hil.es>"]
