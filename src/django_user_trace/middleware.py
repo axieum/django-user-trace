@@ -10,6 +10,7 @@ from django.utils.decorators import sync_and_async_middleware
 
 from django_user_trace.conf import settings
 from django_user_trace.context import user_attrs
+from django_user_trace.signals import cleanup_request, process_request
 from django_user_trace.utils import rgetattr
 
 if TYPE_CHECKING:
@@ -21,9 +22,9 @@ if TYPE_CHECKING:
 logger: logging.Logger = logging.getLogger(__name__)
 
 
-def process_request(request: HttpRequest) -> None:
+def process_incoming_request(request: HttpRequest) -> None:
     """
-    Process an incoming HTTP request.
+    Processes an incoming HTTP request.
 
     :param request: http request
     """
@@ -50,6 +51,20 @@ def process_request(request: HttpRequest) -> None:
     )
     logger.debug("set `user_attrs` context var to %s", user_attrs.get())
 
+    # Send a signal
+    process_request.send(django_user_trace_middleware, request=request)
+
+
+def process_outgoing_request(request: HttpRequest) -> None:
+    """
+    Processes an outgoing HTTP request.
+
+    :param request: http request
+    """
+
+    # Send a signal
+    cleanup_request.send(django_user_trace_middleware, request=request)
+
 
 @sync_and_async_middleware
 def django_user_trace_middleware(get_response: GetResponseCallable) -> GetResponseCallable:
@@ -67,15 +82,19 @@ def django_user_trace_middleware(get_response: GetResponseCallable) -> GetRespon
             logger.debug("async middleware called")
             if hasattr(request, "user"):
                 await sync_to_async(request.user._setup)()  # type: ignore
-            process_request(request)
-            return await get_response(request)  # type: ignore
+            process_incoming_request(request)
+            res: HttpResponse = await get_response(request)  # type: ignore
+            process_outgoing_request(request)
+            return res
 
     # sync middleware
     else:
 
         def middleware(request: HttpRequest) -> HttpResponse:  # type: ignore[misc]
             logger.debug("sync middleware called")
-            process_request(request)
-            return get_response(request)  # type: ignore
+            process_incoming_request(request)
+            res: HttpResponse = get_response(request)  # type: ignore
+            process_outgoing_request(request)
+            return res
 
     return middleware
