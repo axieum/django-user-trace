@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class DjangoUserLogConfig(AppConfig):
+class DjangoUserTraceConfig(AppConfig):
     """django-user-trace."""
 
     name = "django_user_trace"

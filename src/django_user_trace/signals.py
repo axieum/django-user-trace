@@ -1,14 +1,24 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
+from typing import Any, Final
 
 from django.core.signals import request_finished
-from django.dispatch import receiver
+from django.dispatch import Signal, receiver
 
 from django_user_trace.context import user_attrs
 
 logger: logging.Logger = logging.getLogger(__name__)
+
+
+# Signaled before the view is called, during the `django-user-trace` middleware
+#   :param request: HttpRequest
+process_request: Final[Signal] = Signal()
+
+
+# Signaled after the view has been called, during the `django-user-trace` middleware
+#   :param request: HttpRequest
+cleanup_request: Final[Signal] = Signal()
 
 
 @receiver(request_finished)
