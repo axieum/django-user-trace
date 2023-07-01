@@ -18,4 +18,4 @@ def celery_enable_logging() -> bool:
 def install_django_user_trace_celery_app(settings: SettingsWrapper) -> None:
     """Installs the `django_user_trace.contrib.celery` app to Django settings."""
 
-    settings.INSTALLED_APPS += ["django_user_trace.contrib.celery"]
+    settings.INSTALLED_APPS = settings.INSTALLED_APPS + ["django_user_trace.contrib.celery"]
