@@ -48,6 +48,6 @@ def on_task_postrun(task: Task, **_kwargs: dict[str, Any]) -> None:
     :param task: Celery task
     """
 
-    if user_attrs.get():
+    if user_attrs.get() is not None:
         logger.debug("received signal `task_postrun`, clearing `user_attrs` context var")
         user_attrs.set(None)
