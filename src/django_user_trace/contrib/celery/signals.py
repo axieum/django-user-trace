@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Any
 from celery.signals import before_task_publish, task_postrun, task_prerun
 from django.dispatch import receiver
 
+from django_user_trace.conf import settings
 from django_user_trace.context import user_attrs
 
 if TYPE_CHECKING:
@@ -23,8 +24,8 @@ def on_before_task_publish(headers: dict[str, Any], **_kwargs: dict[str, Any]) -
     """
 
     if attrs := user_attrs.get():
-        logger.debug("received signal `before_task_publish`, adding `user` task header")
-        headers["user"] = attrs
+        logger.debug("received signal `before_task_publish`, adding `%s` task header", settings.CELERY_TASK_HEADER)
+        headers[settings.CELERY_TASK_HEADER] = attrs
 
 
 @receiver(task_prerun)
@@ -35,7 +36,7 @@ def on_task_prerun(task: Task, **_kwargs: dict[str, Any]) -> None:
     :param task: Celery task
     """
 
-    if (attrs := task.request.get("user")) and isinstance(attrs, dict):
+    if (attrs := task.request.get(settings.CELERY_TASK_HEADER)) and isinstance(attrs, dict):
         user_attrs.set(attrs)
         logger.debug("received signal `task_prerun`, setting `user_attrs` context var")
 

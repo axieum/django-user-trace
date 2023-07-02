@@ -24,7 +24,7 @@ def test_anonymous_celery_task(client: Client, caplog: LogCaptureFixture, celery
         ("set `user_attrs` context var to {'username': None}", None),
         ("load `delay_view` view", None),
         # BEGIN `django_user_trace.contrib.celery` integration
-        ("received signal `before_task_publish`, adding `user` task header", None),
+        ("received signal `before_task_publish`, adding `User` task header", None),
         ("received signal `task_prerun`, setting `user_attrs` context var", None),
         ("will add 1 and 9", None),
         ("received signal `task_postrun`, clearing `user_attrs` context var", None),
@@ -52,7 +52,7 @@ def test_authenticated_celery_task(client: Client, caplog: LogCaptureFixture, ce
         ("set `user_attrs` context var to {'username': 'jonathan'}", user.get_username()),
         ("load `delay_view` view", user.get_username()),
         # BEGIN `django_user_trace.contrib.celery` integration
-        ("received signal `before_task_publish`, adding `user` task header", user.get_username()),
+        ("received signal `before_task_publish`, adding `User` task header", user.get_username()),
         ("received signal `task_prerun`, setting `user_attrs` context var", user.get_username()),
         ("will add 1 and 9", user.get_username()),
         ("received signal `task_postrun`, clearing `user_attrs` context var", user.get_username()),
@@ -90,7 +90,7 @@ def test_multiple_authenticated_celery_tasks(
                 (f"set `user_attrs` context var to {{'username': '{user.get_username()}'}}", user.get_username()),
                 ("load `delay_view` view", user.get_username()),
                 # BEGIN `django_user_trace.contrib.celery` integration
-                ("received signal `before_task_publish`, adding `user` task header", user.get_username()),
+                ("received signal `before_task_publish`, adding `User` task header", user.get_username()),
                 ("received signal `task_prerun`, setting `user_attrs` context var", user.get_username()),
                 ("will add 1 and 9", user.get_username()),
                 ("received signal `task_postrun`, clearing `user_attrs` context var", user.get_username()),

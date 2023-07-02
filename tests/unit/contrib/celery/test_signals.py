@@ -22,7 +22,7 @@ def test_on_before_task_publish_signal() -> None:
     on_before_task_publish(headers := {"Correlation-ID": "abc"})
     assert headers == {
         "Correlation-ID": "abc",
-        "user": {
+        "User": {
             "username": "jane",
             "email": "jane.doe@localhost",
         },
@@ -41,7 +41,7 @@ def test_on_task_prerun_signal(mocker: MockerFixture) -> None:
     """Tests that user context is set when present in Celery task headers."""
 
     task: Mock = mocker.Mock()
-    task.request = {"Correlation-ID": "asdf", "user": {"username": "john.doe"}}
+    task.request = {"Correlation-ID": "asdf", "User": {"username": "john.doe"}}
 
     user_attrs.set(None)
     on_task_prerun(task)
@@ -63,7 +63,7 @@ def test_on_task_postrun_signal(mocker: MockerFixture) -> None:
     """Tests that user context is cleared."""
 
     task: Mock = mocker.Mock()
-    task.request = {"Correlation-ID": "asdf", "user": {"username": "jonathan", "email": "jonathan@localhost"}}
+    task.request = {"Correlation-ID": "asdf", "User": {"username": "jonathan", "email": "jonathan@localhost"}}
 
     user_attrs.set(task.request)
     on_task_postrun(task)
