@@ -1,6 +1,7 @@
 nav:
   - Home: index.md
   - getting-started
+  - integrations
   - changelog
   - contributing
   - ...

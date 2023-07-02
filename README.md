@@ -38,6 +38,10 @@ sequenceDiagram
     django -->> User: send response
 ```
 
+#### Supports
+
+* [Celery task logging][celery]
+
 #### Resources
 
 * [Django &mdash; How to configure and use logging][django:logging]
@@ -76,6 +80,7 @@ vulnerabilities.
 `django-user-trace` is open-sourced software licenced under the
 [MIT licence][licence].
 
+[celery]: https://docs.celeryq.dev/
 [ci:release]: https://github.com/axieum/django-user-trace/actions/workflows/release.yml
 [ci:test]: https://github.com/axieum/django-user-trace/actions/workflows/test.yml
 [codecov]: https://app.codecov.io/gh/axieum/django-user-trace
