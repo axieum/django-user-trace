@@ -12,7 +12,9 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
+    "celery",
     "django_user_trace",  # <- ADD THIS
+    # "django_user_trace.contrib.celery",  # <- OPTIONALLY ADD THIS
 ]
 
 MIDDLEWARE = [
@@ -76,6 +78,10 @@ LOGGING = {
             "level": "INFO",
             "handlers": ["console"],
         },
+        "celery": {
+            "level": "ERROR",
+            "handlers": ["console"],
+        },
         "example": {
             "level": "DEBUG",
             "handlers": ["console"],
@@ -86,3 +92,9 @@ LOGGING = {
         },
     },
 }
+
+# Celery
+
+CELERY_BROKER_URL = "memory://"
+
+CELERY_RESULT_BACKEND = "cache+memory://"

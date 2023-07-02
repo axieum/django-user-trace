@@ -8,6 +8,7 @@ The default settings are as follows:
 ```py title="settings.py"
 DJANGO_USER_TRACE = {
     "USER_ATTRS": {"username": "get_username"},
+    "CELERY_TASK_HEADER": "User",
 }
 ```
 
@@ -60,6 +61,16 @@ DJANGO_USER_TRACE = {
 4. Here is another way of invoking the same `get_custom_attribute` callable
    (defined above) by first importing the callable from
    `settings.get_custom_attribute`.
+
+## `CELERY_TASK_HEADER`
+
+<small markdown>
+**Default:** `#!py "User"`<br>
+**Type:** `#!py str`
+</small>
+
+This option determines the name of the Celery task header used to trace user
+attributes when `django_user_trace.contrib.celery` integration is installed.
 
 [django:anon_user]: https://docs.djangoproject.com/en/stable/ref/contrib/auth/#django.contrib.auth.models.AnonymousUser
 [django:request]: https://docs.djangoproject.com/en/stable/ref/request-response/#django.http.HttpRequest

@@ -34,6 +34,9 @@ class Settings:
             "username": "get_username",
         }
 
+        # The name of the Celery task header used to trace user attributes
+        self.CELERY_TASK_HEADER: str = "User"
+
         # Load user defined settings
         if user_settings := getattr(django_settings, key, None):
             for setting, value in user_settings.items():
