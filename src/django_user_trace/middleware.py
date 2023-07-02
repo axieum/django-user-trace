@@ -83,7 +83,7 @@ def django_user_trace_middleware(get_response: GetResponseCallable) -> GetRespon
             if hasattr(request, "user"):
                 await sync_to_async(request.user._setup)()  # type: ignore
             process_incoming_request(request)
-            res: HttpResponse = await get_response(request)  # type: ignore
+            res: HttpResponse = await get_response(request)
             process_outgoing_request(request)
             return res
 
