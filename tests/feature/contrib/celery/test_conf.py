@@ -35,15 +35,15 @@ def test_custom_celery_task_header(
         username="jonathan", email="jonathan@localhost", first_name="Jonathan", last_name="Hiles"
     )
 
-    # Fetch the delay page
+    # Fetch the task page
     client.force_login(user)
-    client.get("/delay/")
+    client.get("/task/")
 
     # Expect the log messages to have the expected Django user context and Celery task header
     assert [(r.message, getattr(r, "username", None)) for r in caplog.records] == [
         ("sync middleware called", None),
         ("set `user_attrs` context var to {'username': 'jonathan'}", user.get_username()),
-        ("load `delay_view` view", user.get_username()),
+        ("load `task_add_view` view", user.get_username()),
         # BEGIN `django_user_trace.contrib.celery` integration
         ("received signal `before_task_publish`, adding `X-User-Context` task header", user.get_username()),
         ("received signal `task_prerun`, setting `user_attrs` context var", user.get_username()),

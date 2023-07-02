@@ -15,14 +15,14 @@ if TYPE_CHECKING:
 def test_anonymous_celery_task(client: Client, caplog: LogCaptureFixture, celery_worker: WorkController) -> None:
     """Tests that Celery logs during an unauthenticated sync request contain the *anonymous* user context."""
 
-    # Fetch the delay page
-    client.get("/delay/")
+    # Fetch the 'add' task page
+    client.get("/task/")
 
     # Expect the log messages to have Django's *anonymous* user context
     assert [(r.message, getattr(r, "username", None)) for r in caplog.records] == [
         ("sync middleware called", None),
         ("set `user_attrs` context var to {'username': None}", None),
-        ("load `delay_view` view", None),
+        ("load `task_add_view` view", None),
         # BEGIN `django_user_trace.contrib.celery` integration
         ("received signal `before_task_publish`, adding `User` task header", None),
         ("received signal `task_prerun`, setting `user_attrs` context var", None),
@@ -42,15 +42,15 @@ def test_authenticated_celery_task(client: Client, caplog: LogCaptureFixture, ce
         username="jonathan", email="jonathan@localhost", first_name="Jonathan", last_name="Hiles"
     )
 
-    # Fetch the delay page
+    # Fetch the 'add' task page
     client.force_login(user)
-    client.get("/delay/")
+    client.get("/task/")
 
     # Expect the log messages to have the expected Django user context
     assert [(r.message, getattr(r, "username", None)) for r in caplog.records] == [
         ("sync middleware called", None),
         ("set `user_attrs` context var to {'username': 'jonathan'}", user.get_username()),
-        ("load `delay_view` view", user.get_username()),
+        ("load `task_add_view` view", user.get_username()),
         # BEGIN `django_user_trace.contrib.celery` integration
         ("received signal `before_task_publish`, adding `User` task header", user.get_username()),
         ("received signal `task_prerun`, setting `user_attrs` context var", user.get_username()),
@@ -78,7 +78,7 @@ def test_multiple_authenticated_celery_tasks(
     # Fetch the index page as each user
     for user in users:
         client.force_login(user)
-        client.get("/delay/")
+        client.get("/task/")
 
     # Expect the log messages to have the expected Django user context
     assert sorted([(r.message, getattr(r, "username", None)) for r in caplog.records]) == sorted(
@@ -88,7 +88,7 @@ def test_multiple_authenticated_celery_tasks(
             for entry in (
                 ("sync middleware called", None),
                 (f"set `user_attrs` context var to {{'username': '{user.get_username()}'}}", user.get_username()),
-                ("load `delay_view` view", user.get_username()),
+                ("load `task_add_view` view", user.get_username()),
                 # BEGIN `django_user_trace.contrib.celery` integration
                 ("received signal `before_task_publish`, adding `User` task header", user.get_username()),
                 ("received signal `task_prerun`, setting `user_attrs` context var", user.get_username()),

@@ -27,7 +27,7 @@ def index_view(_request: HttpRequest) -> JsonResponse:
     return JsonResponse({"status": "ok"})
 
 
-def delay_view(_request: HttpRequest) -> JsonResponse:
+def task_add_view(_request: HttpRequest) -> JsonResponse:
     """
     A view that defers a Celery task.
 
@@ -35,6 +35,6 @@ def delay_view(_request: HttpRequest) -> JsonResponse:
     :return: json response
     """
 
-    logger.info("load `delay_view` view", extra={"view": f"{index_view.__module__}.{index_view.__name__}"})
+    logger.info("load `task_add_view` view", extra={"view": f"{task_add_view.__module__}.{task_add_view.__name__}"})
     result: int = tasks.add.delay(1, 9).get()
     return JsonResponse({"status": "ok", "detail": result})
