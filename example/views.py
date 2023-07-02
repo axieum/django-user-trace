@@ -27,6 +27,18 @@ def index_view(_request: HttpRequest) -> JsonResponse:
     return JsonResponse({"status": "ok"})
 
 
+async def aindex_view(_request: HttpRequest) -> JsonResponse:
+    """
+    Async index page that logs a message.
+
+    :param _request: http request
+    :return: json response
+    """
+
+    logger.info("load `aindex_view` view", extra={"view": f"{aindex_view.__module__}.{aindex_view.__name__}"})
+    return JsonResponse({"status": "ok"})
+
+
 def task_add_view(_request: HttpRequest) -> JsonResponse:
     """
     A view that defers a Celery task.
