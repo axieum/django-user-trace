@@ -9,6 +9,13 @@ repository = "https://github.com/axieum/django-user-trace"
 documentation = "https://axieum.github.io/django-user-trace/latest/"
 keywords = ["async", "django", "logs", "logging", "middleware", "sync", "trace", "tracing", "user", "web"]
 classifiers = [
+  "Framework :: Django",
+  "Framework :: Django :: 3",
+  "Framework :: Django :: 3.2",
+  "Framework :: Django :: 4",
+  "Framework :: Django :: 4.0",
+  "Framework :: Django :: 4.1",
+  "Framework :: Django :: 4.2",
   "Intended Audience :: Developers",
   "Operating System :: OS Independent",
   "Topic :: Software Development :: Libraries :: Python Modules",
