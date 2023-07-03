@@ -11,6 +11,7 @@ copyright: Copyright &copy; 2023 Jonathan Hiles
 # Repository
 repo_name: axieum/django-user-trace
 repo_url: https://github.com/axieum/django-user-trace
+edit_uri: blob/main/docs/
 
 # Theme
 theme:
