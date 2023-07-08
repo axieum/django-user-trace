@@ -52,7 +52,7 @@ syrupy = "^3.0.5"
 
 [tool.poetry.group.typing.dependencies]
 mypy = ">=0.990"
-django-stubs = "^1.13.1"
+django-stubs = "^4.2.3"
 
 [tool.poetry.group.docs]
 optional = true
