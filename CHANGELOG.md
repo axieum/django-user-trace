@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.1.1](https://github.com/axieum/django-user-trace/compare/v1.1.0...v1.1.1) (2023-07-08)
+
+
+### Documentation
+
+* fix the format of unlinked version headings (fixes [#14](https://github.com/axieum/django-user-trace/issues/14)) ([#15](https://github.com/axieum/django-user-trace/issues/15)) ([f78a425](https://github.com/axieum/django-user-trace/commit/f78a425a70b6917ce6e1f1cf4ce354e761b88f6b))
+* use `main` branch for source links (fixes [#11](https://github.com/axieum/django-user-trace/issues/11)) ([#12](https://github.com/axieum/django-user-trace/issues/12)) ([0638259](https://github.com/axieum/django-user-trace/commit/06382594d07e1c49a656f2a1852379938c1932b4))
+
+
+### Dependencies
+
+* update dependencies ([7f2904a](https://github.com/axieum/django-user-trace/commit/7f2904ac237af261f0d54a92a5e53076e1859919))
+* update pre-commit repo revisions ([1d6b0ad](https://github.com/axieum/django-user-trace/commit/1d6b0ad7885f432712e46d4eeb53aac9a775e426))
+
 ## [1.1.0](https://github.com/axieum/django-user-trace/compare/v1.0.0...v1.1.0) (2023-07-02)
 
 
