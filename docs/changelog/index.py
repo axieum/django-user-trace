@@ -30,8 +30,14 @@ with mkdocs_gen_files.open("changelog/index.md", "a") as md, open("CHANGELOG.md"
         if match := re.match(r"## \[(?P<version>.+?)]\((?P<url>.+?)\) \((?P<date>[\d-]+?)\)", line):
             version: str = match.group("version")
             url: str = match.group("url")
-            dt = date.fromisoformat(match.group("date")).strftime("%B %d, %Y")
+            dt: str = date.fromisoformat(match.group("date")).strftime("%B %d, %Y")
             line = f'## [{version}]({url}) <small>{dt}</small> {{ #{version} data-toc-label="{version}" }}\n'
+
+        # Format unlinked H2 versions, e.g. ## 1.0.0 (2023-02-19)
+        elif match := re.match(r"## (?P<version>.+?) \((?P<date>[\d-]+?)\)", line):
+            version: str = match.group("version")
+            dt: str = date.fromisoformat(match.group("date")).strftime("%B %d, %Y")
+            line = f'## {version} <small>{dt}</small> {{ #{version} data-toc-label="{version}" }}\n'
 
         # Format H3 commit sections, e.g. ### Features
         elif match := re.match(r"### (?P<scope>[^\n]+)", line):
