@@ -6,6 +6,7 @@ import logging
 from typing import TYPE_CHECKING
 
 from django.http import JsonResponse
+
 from example import tasks
 
 if TYPE_CHECKING:

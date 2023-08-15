@@ -82,7 +82,7 @@ def test_invalid_user_attr_import_string(settings: SettingsWrapper) -> None:
 
 
 @pytest.mark.parametrize(
-    "type_name, value",
+    ("type_name", "value"),
     [
         ("<class 'bool'>", False),
         ("<class 'float'>", 3.14),

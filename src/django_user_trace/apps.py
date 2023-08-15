@@ -10,7 +10,7 @@ class DjangoUserTraceConfig(AppConfig):
         """Sets up the django-user-trace app."""
 
         # Register signals
-        from . import signals  # noqa: F401 # isort: split
+        from . import signals  # noqa: F401 # isort: skip
 
         # Load settings
-        from . import conf  # noqa: F401 # isort: split
+        from . import conf  # noqa: F401 # isort: skip

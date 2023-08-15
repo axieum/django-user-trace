@@ -32,23 +32,25 @@ include = [{ path = "tests", format = "sdist" }]
 [tool.poetry.dependencies]
 python = "^3.8"
 django = "^3.0 | ^4.0"
-celery = {version = "^5.3.0", optional = true}
+celery = {version = "^5.3.1", optional = true}
 
 [tool.poetry.extras]
 celery = ["celery"]
 
 [tool.poetry.group.dev.dependencies]
-pre-commit = "^3.0.1"
+black = "^23.7.0"
+pre-commit = "^3.3.3"
+ruff = "^0.0.284"
 
 [tool.poetry.group.test.dependencies]
-pytest = "^7.2.0"
-pytest-asyncio = "^0.21.0"
+pytest = "^7.4.0"
+pytest-asyncio = "^0.21.1"
 pytest-celery = "^0.0.0"
-pytest-cov = "^4.0.0"
+pytest-cov = "^4.1.0"
 pytest-django = "^4.5.2"
 pytest-mock = "^3.11.1"
-pytest-xdist = "^3.1.0"
-syrupy = "^3.0.5"
+pytest-xdist = "^3.3.1"
+syrupy = "^3.0.6"
 
 [tool.poetry.group.typing.dependencies]
 mypy = ">=0.990"
@@ -65,15 +67,38 @@ mkdocs-git-revision-date-localized-plugin = "^1.1.0"
 mkdocs-material = "^9.0.9"
 mkdocs-minify-plugin = "^0.6.2"
 
+[tool.ruff]
+src = ["src", "tests"]
+target-version = "py38"
+line-length = 120
+select = [
+  "F", # pyflakes
+  "E", # pycodestyle
+  "W", # pycodestyle
+  "I", # isort
+  "N", # pep8-naming
+  "UP", # pyupgrade
+  "ANN", # flake8-annotations
+  "B", # flake8-bugbear
+  "C4", # flake8-comprehensions
+  "DJ", # flake8-django
+  "PIE", # flake8-pie
+  "PT", # flake8-pytest-style
+  "SIM", # flake8-simplify
+  "TCH", # flake8-type-checking
+  "RUF", # ruff-specific rules
+]
+ignore = [
+  "ANN101", # Missing type annotation for {name} in method
+  "ANN102", # Missing type annotation for {name} in classmethod
+  "ANN401", # Dynamically typed expressions (typing.Any) are disallowed in {name}
+  "E501", # Line too long
+  "PT013", # Found incorrect import of pytest, use simple `import pytest` instead
+]
+
 [tool.black]
 target-version = ["py38"]
 line-length = 120
-
-[tool.isort]
-py_version = 38
-profile = "black"
-src_paths = ["src", "tests"]
-combine_as_imports = true
 
 [tool.mypy]
 files = ["src", "tests"]
