@@ -10,12 +10,8 @@ documentation = "https://axieum.github.io/django-user-trace/latest/"
 keywords = ["async", "django", "logs", "logging", "middleware", "sync", "trace", "tracing", "user", "web"]
 classifiers = [
   "Framework :: Django",
-  "Framework :: Django :: 3",
-  "Framework :: Django :: 3.2",
-  "Framework :: Django :: 4",
-  "Framework :: Django :: 4.0",
-  "Framework :: Django :: 4.1",
   "Framework :: Django :: 4.2",
+  "Framework :: Django :: 5.0",
   "Intended Audience :: Developers",
   "Operating System :: OS Independent",
   "Topic :: Software Development :: Libraries :: Python Modules",
@@ -31,7 +27,10 @@ include = [{ path = "tests", format = "sdist" }]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-django = "^3.0 | ^4.0"
+django = [
+  {version = "^4.2", python = ">=3.8,<3.10"},
+  {version = "^5.0", python = ">=3.10"},
+]
 celery = {version = "^5.3.1", optional = true}
 
 [tool.poetry.extras]
@@ -40,11 +39,11 @@ celery = ["celery"]
 [tool.poetry.group.dev.dependencies]
 black = "^23.7.0"
 pre-commit = "^3.3.3"
-ruff = "^0.0.284"
+ruff = "^0.1.7"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
-pytest-asyncio = "^0.21.1"
+pytest-asyncio = "^0.23.2"
 pytest-celery = "^0.0.0"
 pytest-cov = "^4.1.0"
 pytest-django = "^4.5.2"
