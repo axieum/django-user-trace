@@ -26,17 +26,17 @@ jobs:
 
     steps:
       - name: ✨ Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: 📖 Bootstrap Poetry
         run: pipx install poetry
 
-      - name: 🐍 Set up Python 3.11
-        uses: actions/setup-python@v4
+      - name: 🐍 Set up Python 3.12
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: 3.12
           cache: poetry
 
       - name: ⬇️ Install dependencies
