@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import logging
-from typing import Any, Iterable
+from typing import TYPE_CHECKING, Any
 
 from django_user_trace.conf import settings
 from django_user_trace.context import user_attrs
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 
 class DjangoUserAttrs(logging.Filter):
