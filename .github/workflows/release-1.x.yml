@@ -1,0 +1,93 @@
+# Publishes a new release for the project
+
+name: Release 1.x
+
+on:
+  push:
+    branches: [ 1.x ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  lint:
+    name: Lint
+    uses: ./.github/workflows/lint.yml
+
+  test:
+    name: Test
+    uses: ./.github/workflows/test.yml
+
+  release:
+    name: Prepare Release
+
+    runs-on: ubuntu-latest
+    needs: [ lint, test ]
+
+    steps:
+      - name: 🙌 Release Please
+        id: release-please
+        uses: google-github-actions/release-please-action@v4
+        with:
+          release-type: python
+          target-branch: 1.x
+
+    outputs:
+      releases_created: ${{ steps.release-please.outputs.releases_created }}
+      tag_name: ${{ steps.release-please.outputs.tag_name }}
+      major: ${{ steps.release-please.outputs.major }}
+      minor: ${{ steps.release-please.outputs.minor }}
+      patch: ${{ steps.release-please.outputs.patch }}
+
+  publish:
+    name: Publish to PyPI
+
+    runs-on: ubuntu-latest
+    needs: [ release ]
+    if: ${{ needs.release.outputs.releases_created == 'true' }}
+
+    environment:
+      name: pypi
+      url: ${{ vars.PYPI_PROJECT_URL }}/${{ needs.release.outputs.major }}.${{ needs.release.outputs.minor }}.${{ needs.release.outputs.patch }}
+
+    steps:
+      - name: ✨ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📖 Bootstrap Poetry
+        run: |
+          pipx install poetry
+          ${{ vars.PYPI_REPO_URL && format('poetry config repositories.pypi {0}', vars.PYPI_REPO_URL) }}
+          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+
+      - name: 🐍 Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: poetry
+
+      - name: ⬇️ Install dependencies
+        run: poetry install
+
+      - name: 🏗️ Build distribution/s
+        run: poetry build
+
+      - name: 🚀 Publish new release
+        run: poetry publish ${{ vars.PYPI_REPO_URL && '-r pypi' }}
+
+      - name: 📦 Upload artifact/s
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ needs.release.outputs.tag_name }}
+          files: dist/*
+
+  docs:
+    name: Publish Docs
+    needs: [ release ]
+    if: ${{ needs.release.outputs.releases_created == 'true' }}
+    uses: ./.github/workflows/docs.yml
+    with:
+      version: ${{ needs.release.outputs.major }}.${{ needs.release.outputs.minor }}
+      aliases: latest
