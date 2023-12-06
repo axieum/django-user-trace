@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from typing import TYPE_CHECKING, Awaitable, Callable, Union
+from typing import TYPE_CHECKING
 
 from asgiref.sync import sync_to_async
 from django.core.exceptions import ImproperlyConfigured
@@ -14,9 +14,11 @@ from django_user_trace.signals import cleanup_request, process_request
 from django_user_trace.utils import rgetattr
 
 if TYPE_CHECKING:
+    from collections.abc import Awaitable, Callable
+
     from django.http import HttpRequest, HttpResponse
 
-    GetResponseCallable = Callable[[HttpRequest], Union[HttpResponse, Awaitable[HttpResponse]]]
+    GetResponseCallable = Callable[[HttpRequest], HttpResponse | Awaitable[HttpResponse]]
 
 
 logger: logging.Logger = logging.getLogger(__name__)
