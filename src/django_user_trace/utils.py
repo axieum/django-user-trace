@@ -2,7 +2,6 @@ from functools import reduce
 from typing import Any, Final
 
 from django.db.models.constants import LOOKUP_SEP
-from django.utils.functional import LazyObject, empty
 
 SENTINEL: Final[object] = object()
 
@@ -42,11 +41,6 @@ def _resolve_attr(obj: Any, attr: str) -> Any:
     :return: the attribute value
     :raise Exception: if unable to resolve the attribute
     """
-
-    if isinstance(obj, LazyObject):  # unwrap lazy objects
-        if obj._wrapped is empty:  # type: ignore[attr-defined]
-            obj._setup()  # type: ignore[attr-defined]
-        obj = obj._wrapped  # type: ignore[attr-defined]
 
     result: Any
     if obj is None:
