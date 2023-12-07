@@ -16,22 +16,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ 3.11, '3.10', 3.9, 3.8 ]
+        python-version: [ 3.12, 3.11, '3.10' ]
         django-version: [ 4.2, 4.1, '4.0', 3.2 ]
         include:
-          - python-version: 3.11
-            django-version: 4.2
-            annotate-failures: true
+          - { python-version: 3.12, django-version: 4.2, annotate-failures: true }
 
     steps:
       - name: ✨ Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 📖 Bootstrap Poetry
         run: pipx install poetry
 
       - name: 🐍 Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           cache: poetry
@@ -40,7 +38,7 @@ jobs:
         run: |
           poetry add --lock \
             django@${{ matrix.django-version }} \
-            ${{ matrix.annotate-failures && 'pytest-github-actions-annotate-failures@^0.1' }}
+            ${{ matrix.annotate-failures && 'pytest-github-actions-annotate-failures@^0.2' }}
           poetry install
 
       - name: 🧪 Run tests
@@ -63,15 +61,15 @@ jobs:
 
     steps:
       - name: ✨ Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 📖 Bootstrap Poetry
         run: pipx install poetry
 
-      - name: 🐍 Set up Python 3.11
-        uses: actions/setup-python@v4
+      - name: 🐍 Set up Python 3.12
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: 3.12
           cache: poetry
 
       - name: ⬇️ Install dependencies

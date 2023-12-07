@@ -30,7 +30,7 @@ include = [{ path = "tests", format = "sdist" }]
 "Release notes" = "https://axieum.github.io/django-user-trace/latest/changelog/"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.10"
 django = "^3.0 | ^4.0"
 celery = {version = "^5.3.1", optional = true}
 
@@ -69,7 +69,7 @@ mkdocs-minify-plugin = "^0.6.2"
 
 [tool.ruff]
 src = ["src", "tests"]
-target-version = "py38"
+target-version = "py310"
 line-length = 120
 select = [
   "F", # pyflakes
@@ -97,7 +97,7 @@ ignore = [
 ]
 
 [tool.black]
-target-version = ["py38"]
+target-version = ["py310"]
 line-length = 120
 
 [tool.mypy]
