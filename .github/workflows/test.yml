@@ -17,9 +17,9 @@ jobs:
       fail-fast: false
       matrix:
         python-version: [ 3.12, 3.11, '3.10' ]
-        django-version: [ 4.2, 4.1, '4.0', 3.2 ]
+        django-version: [ '5.0' ]
         include:
-          - { python-version: 3.12, django-version: 4.2, annotate-failures: true }
+          - { python-version: 3.12, django-version: '5.0', annotate-failures: true }
 
     steps:
       - name: ✨ Checkout repository
