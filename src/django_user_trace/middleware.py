@@ -4,7 +4,6 @@ import asyncio
 import logging
 from typing import TYPE_CHECKING
 
-from asgiref.sync import sync_to_async
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.decorators import sync_and_async_middleware
 
@@ -16,6 +15,7 @@ from django_user_trace.utils import rgetattr
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable
 
+    from django.contrib.auth.models import AbstractBaseUser, AnonymousUser
     from django.http import HttpRequest, HttpResponse
 
     GetResponseCallable = Callable[[HttpRequest], HttpResponse | Awaitable[HttpResponse]]
@@ -24,15 +24,16 @@ if TYPE_CHECKING:
 logger: logging.Logger = logging.getLogger(__name__)
 
 
-def process_incoming_request(request: HttpRequest) -> None:
+def process_incoming_request(request: HttpRequest, user: AbstractBaseUser | AnonymousUser | None = None) -> None:
     """
     Processes an incoming HTTP request.
 
     :param request: http request
+    :param user: Django user
     """
 
     # Check that authentication has been performed by an earlier middleware
-    if not hasattr(request, "user"):
+    if not user:
         raise ImproperlyConfigured(
             "The django-user-trace middleware requires authentication middleware to be installed. "
             "Edit your MIDDLEWARE setting to insert 'django.contrib.auth.middleware.AuthenticationMiddleware' "
@@ -44,7 +45,7 @@ def process_incoming_request(request: HttpRequest) -> None:
         {
             key: (
                 val
-                if (val := lookup(request.user, request) if callable(lookup) else rgetattr(request.user, lookup, None))
+                if (val := lookup(user, request) if callable(lookup) else rgetattr(user, lookup, None))
                 not in (None, "")
                 else None
             )
@@ -82,9 +83,7 @@ def django_user_trace_middleware(get_response: GetResponseCallable) -> GetRespon
 
         async def middleware(request: HttpRequest) -> HttpResponse:
             logger.debug("async middleware called")
-            if hasattr(request, "user"):
-                await sync_to_async(request.user._setup)()  # type: ignore
-            process_incoming_request(request)
+            process_incoming_request(request, await request.auser() if hasattr(request, "auser") else None)
             res: HttpResponse = await get_response(request)
             process_outgoing_request(request)
             return res
@@ -94,7 +93,7 @@ def django_user_trace_middleware(get_response: GetResponseCallable) -> GetRespon
 
         def middleware(request: HttpRequest) -> HttpResponse:  # type: ignore[misc]
             logger.debug("sync middleware called")
-            process_incoming_request(request)
+            process_incoming_request(request, getattr(request, "user", None))
             res: HttpResponse = get_response(request)  # type: ignore
             process_outgoing_request(request)
             return res
