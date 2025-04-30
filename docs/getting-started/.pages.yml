@@ -2,3 +2,4 @@ nav:
   - installation.md
   - setup.md
   - configuration.md
+  - asgi.md

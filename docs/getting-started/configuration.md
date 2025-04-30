@@ -16,7 +16,7 @@ DJANGO_USER_TRACE = {
 
 <small markdown>
 **Default:** `#!py {"username": "get_username"}`<br>
-**Type:** `#!py dict[str, str | Callable[[AbstractBaseUser | AnonymousUser, HttpRequest], Any]]`
+**Type:** `#!py dict[str, str | Callable[[AbstractBaseUser | AnonymousUser | None, HttpRequest | Scope], Any]]`
 </small>
 
 This option controls which [`request.user`][django:request_user] attributes are
@@ -26,8 +26,8 @@ It is a mapping of log record field names to either:
 
 1. an attribute on the Django [`request.user`][django:request_user] object;
 2. a callable that accepts ([`AbstractBaseUser`][django:user] |
-   [`AnonymousUser`][django:anon_user], [`HttpRequest`][django:request]) and
-   returns the result;
+   [`AnonymousUser`][django:anon_user], [`HttpRequest`][django:request] |
+   [`Scope`][asgi:scope]) and returns the result;
 3. an import string (prefixed with `ext://`) to a callable as seen in (2) above.
 
 !!! tip
@@ -79,3 +79,4 @@ attributes when `django_user_trace.contrib.celery` integration is installed.
 [django:user_email]: https://docs.djangoproject.com/en/stable/ref/contrib/auth/#django.contrib.auth.models.User.email
 [django:user_get_username]: https://docs.djangoproject.com/en/stable/topics/auth/customizing/#django.contrib.auth.models.AbstractBaseUser.get_username
 [python:logging]: https://docs.python.org/3/library/logging.html
+[asgi:scope]: https://asgi.readthedocs.io/en/latest/specs/lifespan.html#scope

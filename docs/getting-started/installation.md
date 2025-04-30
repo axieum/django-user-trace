@@ -16,6 +16,12 @@
     poetry add django-user-trace
     ```
 
+=== ":simple-uv: uv"
+
+    ```sh
+    uv add django-user-trace
+    ```
+
 ## with git
 
 You can also build and install `django-user-trace` from its source.
