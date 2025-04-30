@@ -27,14 +27,14 @@ jobs:
           cache: poetry
 
       - name: ⬇️ Install dependencies
-        run: poetry install
+        run: poetry install --all-extras
 
       - name: 🧩 Run type checks
         run: poetry run mypy
 
       - name: 🚦 Run pre-commit
-        uses: pre-commit/action@v3.0.0
+        uses: pre-commit/action@v3.0.1
 
       - name: 📑 Apply changes (via pre-commit-ci-lite)
         if: always()
-        uses: pre-commit-ci/lite-action@v1.0.1
+        uses: pre-commit-ci/lite-action@v1.1.0

@@ -29,7 +29,7 @@ jobs:
     steps:
       - name: 🙌 Release Please
         id: release-please
-        uses: google-github-actions/release-please-action@v4
+        uses: googleapis/release-please-action@v4
         with:
           release-type: python
 
@@ -68,7 +68,7 @@ jobs:
           cache: poetry
 
       - name: ⬇️ Install dependencies
-        run: poetry install
+        run: poetry install --all-extras
 
       - name: 🏗️ Build distribution/s
         run: poetry build
@@ -77,7 +77,7 @@ jobs:
         run: poetry publish ${{ vars.PYPI_REPO_URL && '-r pypi' }}
 
       - name: 📦 Upload artifact/s
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.release.outputs.tag_name }}
           files: dist/*
