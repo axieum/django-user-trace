@@ -14,6 +14,12 @@ A Python [logging][python:logging] filter for [Django][django] user attributes
 `django-user-trace` provides a Python [logging][python:logging] filter that
 injects attributes from the currently logged in [Django][django] user.
 
+```
+INFO ... john_doe project.views This is a view log, and should have a user.
+INFO ... mike_scott project.views This is a view log, and should have a user.
+WARNING ... john_doe project.services.file Some warning in a function!
+```
+
 It uses a [`ContextVar`][python:contextvars] to store user attributes for use on
 the current thread. These are then injected into all log records via a logging
 filter.
@@ -49,6 +55,7 @@ sequenceDiagram
 #### Related Projects
 
 * [madzak/python-json-logger][python-json-logger]
+* [snok/asgi-correlation-id][asgi-correlation-id]
 * [snok/django-guid][django-guid]
 
 ## Installation
@@ -80,6 +87,7 @@ vulnerabilities.
 `django-user-trace` is open-sourced software licenced under the
 [MIT licence][licence].
 
+[asgi-correlation-id]: https://github.com/snok/asgi-correlation-id
 [celery]: https://docs.celeryq.dev/
 [ci:release]: https://github.com/axieum/django-user-trace/actions/workflows/release.yml
 [ci:test]: https://github.com/axieum/django-user-trace/actions/workflows/test.yml
