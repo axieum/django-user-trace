@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 
 if TYPE_CHECKING:
     from celery.worker import WorkController
-    from django.contrib.auth.models import AbstractUser
+    from django.contrib.auth.models import User
     from django.test import Client
     from pytest import LogCaptureFixture
 
@@ -38,7 +38,7 @@ def test_authenticated_celery_task(client: Client, caplog: LogCaptureFixture, ce
     """Tests that Celery logs during an authenticated sync request contain the logged-in user context."""
 
     # Create a new user
-    user: AbstractUser = get_user_model().objects.create(
+    user: User = get_user_model().objects.create(
         username="jonathan", email="jonathan@localhost", first_name="Jonathan", last_name="Hiles"
     )
 
@@ -68,12 +68,12 @@ def test_multiple_authenticated_celery_tasks(
     """Tests that the Celery user context from an authenticated request does not bleed into future task logs."""
 
     # Create new users
-    users: list[AbstractUser] = [
+    users: tuple[User, ...] = (
         # Jane Doe
         get_user_model().objects.create(username="jane", email="jane@localhost", first_name="Jane", last_name="Doe"),
         # John Doe
         get_user_model().objects.create(username="john", email="john@localhost", first_name="John", last_name="Doe"),
-    ]
+    )
 
     # Fetch the index page as each user
     for user in users:

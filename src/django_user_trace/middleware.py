@@ -7,10 +7,8 @@ from typing import TYPE_CHECKING
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.decorators import sync_and_async_middleware
 
-from django_user_trace.conf import settings
-from django_user_trace.context import user_attrs
+from django_user_trace.context import build_user_attrs, user_attrs
 from django_user_trace.signals import cleanup_request, process_request
-from django_user_trace.utils import rgetattr
 
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable
@@ -32,7 +30,7 @@ def process_incoming_request(request: HttpRequest, user: AbstractBaseUser | Anon
     :param user: Django user
     """
 
-    # Check that authentication has been performed by an earlier middleware
+    # Check that authentication has been performed by earlier middleware
     if not user:
         raise ImproperlyConfigured(
             "The django-user-trace middleware requires authentication middleware to be installed. "
@@ -41,18 +39,8 @@ def process_incoming_request(request: HttpRequest, user: AbstractBaseUser | Anon
         )
 
     # Capture any necessary user attributes for use in log messages
-    user_attrs.set(
-        {
-            key: (
-                val
-                if (val := lookup(user, request) if callable(lookup) else rgetattr(user, lookup, None))
-                not in (None, "")
-                else None
-            )
-            for key, lookup in settings.USER_ATTRS.items()
-        }
-    )
-    logger.debug("set `user_attrs` context var to %s", user_attrs.get())
+    user_attrs.set(attrs := build_user_attrs(request, user))
+    logger.debug("set `user_attrs` context var to %s", attrs)
 
     # Send a signal
     process_request.send(django_user_trace_middleware, request=request)

@@ -10,7 +10,7 @@ from django_user_trace.conf import Settings
 if TYPE_CHECKING:
     from _pytest.monkeypatch import MonkeyPatch
     from celery.worker import WorkController
-    from django.contrib.auth.models import AbstractUser
+    from django.contrib.auth.models import User
     from django.test import Client
     from pytest import LogCaptureFixture
     from pytest_django.fixtures import SettingsWrapper
@@ -31,7 +31,7 @@ def test_custom_celery_task_header(
     monkeypatch.setattr("django_user_trace.contrib.celery.signals.settings", Settings())
 
     # Create a new user
-    user: AbstractUser = get_user_model().objects.create(
+    user: User = get_user_model().objects.create(
         username="jonathan", email="jonathan@localhost", first_name="Jonathan", last_name="Hiles"
     )
 

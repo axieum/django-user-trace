@@ -27,6 +27,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "unknown"]
+
 ROOT_URLCONF = "example.urls"
 
 WSGI_APPLICATION = "example.wsgi.application"

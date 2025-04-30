@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 
 if TYPE_CHECKING:
     from _pytest.logging import LogCaptureFixture
-    from django.contrib.auth.models import AbstractUser
+    from django.contrib.auth.models import User
     from django.test.client import Client
 
 
@@ -31,7 +31,7 @@ def test_authenticated_sync_request(client: Client, caplog: LogCaptureFixture) -
     """Tests that logs during an authenticated sync request contain the logged-in user context."""
 
     # Create a new user
-    user: AbstractUser = get_user_model().objects.create(
+    user: User = get_user_model().objects.create(
         username="jonathan", email="jonathan@localhost", first_name="Jonathan", last_name="Hiles"
     )
 
@@ -53,12 +53,12 @@ def test_multiple_authenticated_sync_requests(client: Client, caplog: LogCapture
     """Tests that the user context from an authenticated sync request does not bleed into other request logs."""
 
     # Create new users
-    users: list[AbstractUser] = [
+    users: tuple[User, ...] = (
         # Jane Doe
         get_user_model().objects.create(username="jane", email="jane@localhost", first_name="Jane", last_name="Doe"),
         # John Doe
         get_user_model().objects.create(username="john", email="john@localhost", first_name="John", last_name="Doe"),
-    ]
+    )
 
     # Fetch the index page as each user
     for user in users:

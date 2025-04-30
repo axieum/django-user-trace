@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 
 if TYPE_CHECKING:
     from _pytest.logging import LogCaptureFixture
-    from django.contrib.auth.models import AbstractUser
+    from django.contrib.auth.models import User
     from django.http import HttpResponseBase
     from django.test.client import AsyncClient
 
@@ -35,12 +35,12 @@ async def test_authenticated_async_request(async_client: AsyncClient, caplog: Lo
     """Tests that logs during an authenticated async request contain the logged-in user context."""
 
     # Create a new user
-    user: AbstractUser = await sync_to_async(get_user_model().objects.create)(
+    user: User = await get_user_model().objects.acreate(
         username=(username := "jonathan"), email="jonathan@localhost", first_name="Jonathan", last_name="Hiles"
     )
 
     # Fetch the index page
-    await sync_to_async(async_client.force_login)(user)
+    await sync_to_async(async_client.force_login)(user, backend=None)
     await async_client.get("/asgi/")
 
     # Expect the log messages to have the expected Django user context
@@ -57,25 +57,21 @@ async def test_concurrent_authenticated_async_requests(async_client: AsyncClient
     """Tests that the user context from an authenticated async request does not bleed into other request logs."""
 
     # Create new users
-    users: list[AbstractUser] = await asyncio.gather(
+    users: tuple[User, ...] = await asyncio.gather(
         # Jane Doe
-        sync_to_async(get_user_model().objects.create)(
-            username="jane", email="jane@localhost", first_name="Jane", last_name="Doe"
-        ),
+        get_user_model().objects.acreate(username="jane", email="jane@localhost", first_name="Jane", last_name="Doe"),
         # John Doe
-        sync_to_async(get_user_model().objects.create)(
-            username="john", email="john@localhost", first_name="John", last_name="Doe"
-        ),
+        get_user_model().objects.acreate(username="john", email="john@localhost", first_name="John", last_name="Doe"),
         # Jonathan Hiles
-        sync_to_async(get_user_model().objects.create)(
+        get_user_model().objects.acreate(
             username="jonathan", email="jonathan@localhost", first_name="Jonathan", last_name="Hiles"
         ),
     )
 
     # Fetch the index page as each user concurrently
-    async def _async_request(login_as: AbstractUser) -> HttpResponseBase:
+    async def _async_request(login_as: User) -> HttpResponseBase:
         _async_client: AsyncClient = deepcopy(async_client)
-        await sync_to_async(_async_client.force_login)(login_as)
+        await sync_to_async(_async_client.force_login)(login_as, backend=None)
         return await _async_client.get("/asgi/")
 
     await asyncio.gather(*(_async_request(user) for user in users))
