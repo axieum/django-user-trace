@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 def test_process_request_signal(client: Client, mocker: MockerFixture) -> None:
-    """Tests that the `django_user_trace.signals.process_request` signal is dispatched."""
+    """Tests that the ``django_user_trace.signals.process_request`` signal is dispatched."""
 
     signal_send_spy = mocker.spy(django_user_trace.signals.process_request, "send")
     res = client.get("/")
@@ -19,7 +19,7 @@ def test_process_request_signal(client: Client, mocker: MockerFixture) -> None:
 
 
 def test_cleanup_request_signal(client: Client, mocker: MockerFixture) -> None:
-    """Tests that the `django_user_trace.signals.cleanup_request` signal is dispatched."""
+    """Tests that the ``django_user_trace.signals.cleanup_request`` signal is dispatched."""
 
     signal_send_spy = mocker.spy(django_user_trace.signals.cleanup_request, "send")
     res = client.get("/")

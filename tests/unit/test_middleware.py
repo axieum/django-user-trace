@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 def test_incorrect_middleware_order(client: Client, settings: SettingsWrapper) -> None:
     """
-    Tests that registering the `django_user_trace_middleware` middleware before Django's `AuthenticationMiddleware`
+    Tests that registering the ``django_user_trace_middleware`` middleware before Django's ``AuthenticationMiddleware``
     raises an error.
     """
 

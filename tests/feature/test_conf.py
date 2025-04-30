@@ -10,7 +10,7 @@ from django_user_trace.conf import Settings
 if TYPE_CHECKING:
     from _pytest.logging import LogCaptureFixture
     from _pytest.monkeypatch import MonkeyPatch
-    from django.contrib.auth.models import AbstractUser
+    from django.contrib.auth.models import AbstractUser, User
     from django.http import HttpRequest
     from django.test.client import Client
     from pytest_django.fixtures import SettingsWrapper
@@ -27,10 +27,10 @@ def test_log_multiple_attrs_of_user(
         "USER_ATTRS": {"username": "get_username", "email": "email"},
     }
     monkeypatch.setattr("django_user_trace.log.settings", new_settings := Settings())
-    monkeypatch.setattr("django_user_trace.middleware.settings", new_settings)
+    monkeypatch.setattr("django_user_trace.context.settings", new_settings)
 
     # Create a new user
-    user: AbstractUser = get_user_model().objects.create(
+    user: User = get_user_model().objects.create(
         username=(username := "matthew"), email=(email := "matthew@localhost"), first_name="Matthew", last_name="Hiles"
     )
 
@@ -57,7 +57,7 @@ def test_log_multiple_attrs_of_anonymous_user(
         "USER_ATTRS": {"username": "get_username", "email": "email"},
     }
     monkeypatch.setattr("django_user_trace.log.settings", new_settings := Settings())
-    monkeypatch.setattr("django_user_trace.middleware.settings", new_settings)
+    monkeypatch.setattr("django_user_trace.context.settings", new_settings)
 
     # Fetch the index page
     client.get("/")
@@ -85,10 +85,10 @@ def test_log_result_of_custom_callable_for_user(
         "USER_ATTRS": {"username": "get_username", "custom": get_custom_attribute},
     }
     monkeypatch.setattr("django_user_trace.log.settings", new_settings := Settings())
-    monkeypatch.setattr("django_user_trace.middleware.settings", new_settings)
+    monkeypatch.setattr("django_user_trace.context.settings", new_settings)
 
     # Create a new user with a unique mark
-    user: AbstractUser = get_user_model().objects.create(
+    user: User = get_user_model().objects.create(
         username="jonathan", email="jonathan@localhost", first_name="Jonathan", last_name="Hiles"
     )
 

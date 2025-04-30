@@ -24,7 +24,7 @@ cleanup_request: Final[Signal] = Signal()
 @receiver(request_finished)
 def clear_user_attrs_after_request(sender: Any, **kwargs: dict[str, Any]) -> None:
     """
-    Clears the `user_attrs` context variable after each HTTP request.
+    Clears the ``user_attrs`` context variable after each HTTP request.
 
     :param sender: signal sender
     :param kwargs: signal keyword arguments
