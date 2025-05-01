@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0](https://github.com/axieum/django-user-trace/compare/v2.0.0...v2.1.0) (2025-05-01)
+
+
+### Features
+
+* **asgi:** add ASGI middleware support ([f843b17](https://github.com/axieum/django-user-trace/commit/f843b171062d6accd2650b42fa26cec56fc41986))
+
+
+### Documentation
+
+* **asgi:** add ASGI setup guide ([c942976](https://github.com/axieum/django-user-trace/commit/c942976fcb11b6560925c9aa3b51d9f4971cefeb))
+
 ## [2.0.0](https://github.com/axieum/django-user-trace/compare/v1.1.0...v2.0.0) (2023-12-07)
 
 
