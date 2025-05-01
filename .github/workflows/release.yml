@@ -19,6 +19,8 @@ jobs:
   test:
     name: Test
     uses: ./.github/workflows/test.yml
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   release:
     name: Prepare Release
