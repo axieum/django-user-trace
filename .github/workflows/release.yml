@@ -33,7 +33,7 @@ jobs:
         id: release-please
         uses: googleapis/release-please-action@v4
         with:
-          release-type: python
+          config-file: .github/release-please.json
 
     outputs:
       releases_created: ${{ steps.release-please.outputs.releases_created }}

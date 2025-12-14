@@ -1,0 +1,17 @@
+{
+  "release-type": "python",
+  "pull-request-title-pattern": "chore: release v${version}",
+  "extra-files": [
+    {
+      "path": "uv.lock",
+      "type": "toml",
+      "jsonpath": "$.package[?(@.name.value=='django-user-trace')].version"
+    }
+  ],
+  "packages": {
+    ".": {
+      "component": "django-user-trace",
+      "include-component-in-tag": false
+    }
+  }
+}
