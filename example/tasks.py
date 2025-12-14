@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 logger: logging.Logger = get_task_logger(__name__)
 
 
-@app.task(name="add")  # type: ignore[misc]
+@app.task(name="add")  # type: ignore[untyped-decorator]
 def add(x: int, y: int) -> int:
     """
     A task that adds two integers together and returns the result.

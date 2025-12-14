@@ -24,7 +24,7 @@ def test_rgetattr_with_object() -> None:
     assert rgetattr(obj, "d") == obj.d
     assert rgetattr(obj, "d__e") == 4
     assert rgetattr(obj, "d__f") == 5
-    with pytest.raises(AttributeError, match="'types.SimpleNamespace' object has no attribute 'z'"):
+    with pytest.raises(AttributeError, match=r"'types\.SimpleNamespace' object has no attribute 'z'"):
         rgetattr(obj, "z")
 
 

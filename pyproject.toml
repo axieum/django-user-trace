@@ -1,9 +1,11 @@
-[tool.poetry]
+[project]
 name = "django-user-trace"
 version = "2.1.0"
 description = "A Python logging filter for Django user attributes."
 license = "MIT"
-authors = ["Jonathan Hiles <jonathan@hil.es>"]
+authors = [
+  { name = "Jonathan Hiles", email = "jonathan@hil.es>" },
+]
 readme = "README.md"
 repository = "https://github.com/axieum/django-user-trace"
 documentation = "https://axieum.github.io/django-user-trace/latest/"
@@ -16,53 +18,49 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
   "Typing :: Typed",
 ]
-packages = [{ include = "django_user_trace", from = "src" }]
-include = [{ path = "tests", format = "sdist" }]
+requires-python = ">=3.10"
+dependencies = [
+  "django>=5.0",
+]
 
-[tool.poetry.urls]
+[project.optional-dependencies]
+celery = ["celery>=5.3"]
+channels = ["channels>=4.2"]
+
+[project.urls]
 "Funding" = "https://github.com/sponsors/axieum"
 "Issue tracker" = "https://github.com/axieum/django-user-trace/issues"
 "Release notes" = "https://axieum.github.io/django-user-trace/latest/changelog/"
 
-[tool.poetry.dependencies]
-python = "^3.10"
-django = "^5.0"
-celery = {version = "^5.3", optional = true}
-channels = {version = "^4.2", optional = true}
-
-[tool.poetry.extras]
-celery = ["celery"]
-channels = ["channels"]
-
-[tool.poetry.group.dev.dependencies]
-daphne = "^4.1.2"
-pre-commit = "^4.2.0"
-ruff = "^0.11.7"
-
-[tool.poetry.group.test.dependencies]
-pytest = "^8.3.5"
-pytest-asyncio = "^0.26.0"
-pytest-cov = "^6.1.1"
-pytest-django = "^4.11.1"
-pytest-mock = "^3.14.0"
-pytest-xdist = "^3.6.1"
-syrupy = "^4.9.1"
-
-[tool.poetry.group.typing.dependencies]
-mypy = "^1.15.0"
-django-stubs = "^5.2.0"
-starlette = "^0.46.2"
-
-[tool.poetry.group.docs]
-optional = true
-[tool.poetry.group.docs.dependencies]
-mike = "^1.1.2"
-mkdocs = "^1.4.2"
-mkdocs-awesome-pages-plugin = "^2.8.0"
-mkdocs-gen-files = "^0.4.0"
-mkdocs-git-revision-date-localized-plugin = "^1.1.0"
-mkdocs-material = "^9.0.9"
-mkdocs-minify-plugin = "^0.6.2"
+[dependency-groups]
+dev = [
+  "daphne>=4.1.2",
+  "pre-commit>=4.2.0",
+  "ruff>=0.11.7",
+]
+docs = [
+  "mike>=1.1.2",
+  "mkdocs>=1.4.2",
+  "mkdocs-awesome-pages-plugin>=2.8.0",
+  "mkdocs-gen-files>=0.4.0",
+  "mkdocs-git-revision-date-localized-plugin>=1.1.0",
+  "mkdocs-material>=9.0.9",
+  "mkdocs-minify-plugin>=0.6.2",
+]
+test = [
+  "pytest>=8.3.5",
+  "pytest-asyncio>=0.26.0",
+  "pytest-cov>=6.1.1",
+  "pytest-django>=4.11.1",
+  "pytest-mock>=3.14.0",
+  "pytest-xdist>=3.6.1",
+  "syrupy>=4.9.1",
+]
+typing = [
+  "mypy>=1.15.0",
+  "django-stubs>=5.2.0",
+  "starlette>=0.46.2",
+]
 
 [tool.ruff]
 src = ["src", "tests"]
@@ -134,5 +132,5 @@ exclude_lines = [
 show_missing = true
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.9.17,<0.10.0"]
+build-backend = "uv_build"
