@@ -1,6 +1,6 @@
 [project]
 name = "django-user-trace"
-version = "2.1.0"
+version = "2.2.0"
 description = "A Python logging filter for Django user attributes."
 license = "MIT"
 authors = [
