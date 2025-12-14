@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/axieum/django-user-trace/compare/v2.1.0...v2.2.0) (2025-12-14)
+
+
+### Features
+
+* add Django 6 support ([#25](https://github.com/axieum/django-user-trace/issues/25)) ([5d35e7f](https://github.com/axieum/django-user-trace/commit/5d35e7ff3c424da49253fb706a40e5ff493d1df1))
+
 ## [2.1.0](https://github.com/axieum/django-user-trace/compare/v2.0.0...v2.1.0) (2025-05-01)
 
 
