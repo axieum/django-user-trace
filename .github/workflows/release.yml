@@ -55,28 +55,24 @@ jobs:
 
     steps:
       - name: ✨ Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: 📖 Bootstrap Poetry
-        run: |
-          pipx install poetry
-          ${{ vars.PYPI_REPO_URL && format('poetry config repositories.pypi {0}', vars.PYPI_REPO_URL) }}
-          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
-
-      - name: 🐍 Set up Python 3.12
-        uses: actions/setup-python@v5
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v6
         with:
-          python-version: 3.12
-          cache: poetry
+          python-version-file: .python-version
+
+      - name: 📖 Bootstrap uv
+        uses: astral-sh/setup-uv@v7
 
       - name: ⬇️ Install dependencies
-        run: poetry install --all-extras
+        run: uv sync --locked --all-extras --all-groups
 
       - name: 🏗️ Build distribution/s
-        run: poetry build
+        run: uv build
 
       - name: 🚀 Publish new release
-        run: poetry publish ${{ vars.PYPI_REPO_URL && '-r pypi' }}
+        run: uv publish
 
       - name: 📦 Upload artifact/s
         uses: softprops/action-gh-release@v2

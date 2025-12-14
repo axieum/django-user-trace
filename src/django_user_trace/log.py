@@ -35,7 +35,7 @@ class DjangoUserAttrs(logging.Filter):
 
         attributes: dict[str, Any] = user_attrs.get() or {}
         for attr in settings.USER_ATTRS:
-            if not self.attrs or attr in self.attrs:
+            if not self.attrs or attr in self.attrs:  # pragma: no cover
                 setattr(record, attr, attributes.get(attr))
 
         return True

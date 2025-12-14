@@ -25,9 +25,9 @@ def test_incorrect_middleware_order(client: Client, settings: SettingsWrapper) -
     with pytest.raises(
         ImproperlyConfigured,
         match=(
-            "The django-user-trace middleware requires authentication middleware to be installed. "
-            "Edit your MIDDLEWARE setting to insert 'django.contrib.auth.middleware.AuthenticationMiddleware' "
-            "before 'django_user_trace.middleware.django_user_trace_middleware'."
+            r"The django-user-trace middleware requires authentication middleware to be installed\. "
+            r"Edit your MIDDLEWARE setting to insert 'django\.contrib\.auth\.middleware\.AuthenticationMiddleware' "
+            r"before 'django_user_trace.middleware.django_user_trace_middleware'\."
         ),
     ):
         client.get("/")

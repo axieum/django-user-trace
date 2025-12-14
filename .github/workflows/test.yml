@@ -19,38 +19,38 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ 3.12, 3.11, '3.10' ]
-        django-version: [ '5.2' ]
+        python-version: [ '3.12', '3.11', '3.10' ]
+        django-version: [ '5.2.9', '6.0' ]
         include:
-          - { python-version: 3.12, django-version: '5.2', annotate-failures: true }
+          - { python-version: '3.12', django-version: '6.0', annotate-failures: true }
 
     steps:
       - name: ✨ Checkout repository
-        uses: actions/checkout@v4
-
-      - name: 📖 Bootstrap Poetry
-        run: pipx install poetry
+        uses: actions/checkout@v6
 
       - name: 🐍 Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: poetry
+
+      - name: 📖 Bootstrap uv
+        uses: astral-sh/setup-uv@v7
 
       - name: ⬇️ Install dependencies
         run: |
-          poetry add --lock \
-            django@${{ matrix.django-version }} \
-            ${{ matrix.annotate-failures && 'pytest-github-actions-annotate-failures@^0.2' }}
-          poetry install --all-extras
+          uv sync --locked --all-extras --group test
+          uv pip install "django==${{ matrix.django-version }}"
+          if [ "${{ matrix.annotate-failures }}" = "true" ]; then
+            uv pip install "pytest-github-actions-annotate-failures>=0.3,<1.0"
+          fi
 
       - name: 🧪 Run tests
-        run: poetry run pytest --cov src
+        run: uv run pytest --cov src --cov-branch
         env:
           COVERAGE_FILE: .coverage.py${{ matrix.python-version }}-dj${{ matrix.django-version }}
 
       - name: ⬆️ Upload coverage data
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: coverage-py${{ matrix.python-version }}-dj${{ matrix.django-version }}
           path: .coverage.*
@@ -65,31 +65,30 @@ jobs:
 
     steps:
       - name: ✨ Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: 📖 Bootstrap Poetry
-        run: pipx install poetry
-
-      - name: 🐍 Set up Python 3.12
+      - name: 🐍 Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
-          python-version: 3.12
-          cache: poetry
+          python-version: ${{ matrix.python-version }}
+
+      - name: 📖 Bootstrap uv
+        uses: astral-sh/setup-uv@v7
 
       - name: ⬇️ Install dependencies
-        run: poetry install --only test
+        run: uv sync --locked --all-extras --group test
 
       - name: 🔍 Restore coverage data
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           pattern: coverage*
           merge-multiple: true
 
       - name: 📑 Combine coverage data
         run: |
-          poetry run coverage combine
-          poetry run coverage report
-          poetry run coverage xml
+          uv run coverage combine
+          uv run coverage report
+          uv run coverage xml
 
       - name: ⬆️ Upload coverage
         uses: codecov/codecov-action@v5

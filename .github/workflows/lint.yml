@@ -15,22 +15,21 @@ jobs:
 
     steps:
       - name: ✨ Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: 📖 Bootstrap Poetry
-        run: pipx install poetry
-
-      - name: 🐍 Set up Python 3.12
-        uses: actions/setup-python@v5
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v6
         with:
-          python-version: 3.12
-          cache: poetry
+          python-version-file: .python-version
+
+      - name: 📖 Bootstrap uv
+        uses: astral-sh/setup-uv@v7
 
       - name: ⬇️ Install dependencies
-        run: poetry install --all-extras
+        run: uv sync --locked --all-extras --all-groups
 
       - name: 🧩 Run type checks
-        run: poetry run mypy
+        run: uv run mypy
 
       - name: 🚦 Run pre-commit
         uses: pre-commit/action@v3.0.1

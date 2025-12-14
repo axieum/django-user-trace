@@ -48,7 +48,7 @@ def test_invalid_user_defined_setting(settings: SettingsWrapper) -> None:
     }
 
     # Instantiate a new django-user-trace settings instance and expect an error
-    with pytest.raises(ImproperlyConfigured, match="'INVALID_OPTION' is not a valid django-user-trace setting."):
+    with pytest.raises(ImproperlyConfigured, match=r"'INVALID_OPTION' is not a valid django-user-trace setting\."):
         Settings()
 
 
@@ -77,7 +77,7 @@ def test_invalid_user_attr_import_string(settings: SettingsWrapper) -> None:
     }
 
     # Instantiate a new django-user-trace settings instance and expect an error
-    with pytest.raises(ImproperlyConfigured, match="Cannot import django-user-trace user attribute 'username'."):
+    with pytest.raises(ImproperlyConfigured, match=r"Cannot import django-user-trace user attribute 'username'\."):
         Settings()
 
 
@@ -98,6 +98,6 @@ def test_invalid_user_attr_type(type_name: str, value: Any, settings: SettingsWr
     # Instantiate a new django-user-trace settings instance and expect an error
     with pytest.raises(
         ImproperlyConfigured,
-        match=f"Expected a string or callable for django-user-trace user attribute 'username' but got '{type_name}'.",
+        match=rf"Expected a string or callable for django-user-trace user attribute 'username' but got '{type_name}'\.",
     ):
         Settings()
